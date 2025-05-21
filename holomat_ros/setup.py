@@ -14,12 +14,16 @@ setup(
     install_requires=[
       'setuptools',
       'rclpy',
+      'rclpy_action',
       'opencv-python',
       'mediapipe',
       'tf2_ros',
       'geometry_msgs',
+      'visualization_msgs',
       'cv_bridge',
       'sensor_msgs',
+      'holomat_interface',
+      'numpy',
     ],
     zip_safe=True,
     maintainer='MJ Santos',
@@ -30,6 +34,8 @@ setup(
     entry_points={
         'console_scripts': [
             'hand_tracking_node = holomat_ros.hand_tracking_node:main',
+            'calibration_node = holomat_ros.calibration_node:main',
+            'projection_action = holomat_ros.calibration_node:main',
         ],
     },
 )

@@ -22,7 +22,7 @@ class HandTrackingNode(Node):
         mp_hands = mp.solutions.hands
         self.hands = mp_hands.Hands(
             static_image_mode=False,
-            max_num_hands=2,
+            max_num_hands=1,
             min_detection_confidence=0.1,
             min_tracking_confidence=0.1
         )
@@ -51,7 +51,7 @@ class HandTrackingNode(Node):
                 self.get_logger().warn('Empty frame, skipping...')
                 continue
 
-            #frame = cv2.flip(frame, 1)
+            frame = cv2.flip(frame, 1)
             rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             results = self.hands.process(rgb)
 
@@ -117,9 +117,9 @@ class HandTrackingNode(Node):
             self.image_pub.publish(img_msg)
 
             # Display locally
-            cv2.imshow('Hand Tracking', frame)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+            #cv2.imshow('Hand Tracking', frame)
+            #if cv2.waitKey(1) & 0xFF == ord('q'):
+            #    break
 
         self.cap.release()
         cv2.destroyAllWindows()

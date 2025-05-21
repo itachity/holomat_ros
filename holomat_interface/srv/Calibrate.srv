@@ -1,0 +1,3 @@
+				# Request is empty; calling this service kicks off calibration
+---
+bool success  	# true if calibration completed & homography was saved
