@@ -1,0 +1,8 @@
+# Goal: user‐supplied text prompt to Jarvis
+string query
+---
+# Result: the final response text from OpenAI
+string response
+---
+# Feedback: partial (streamed) response chunks
+string partial_response

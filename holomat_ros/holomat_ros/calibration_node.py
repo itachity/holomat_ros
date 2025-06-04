@@ -26,17 +26,21 @@ PROJ_W, PROJ_H = 1920, 909
 # Offset to move windows onto the projector
 PRIMARY_DISPLAY_WIDTH = 2560  # adjust to your setup
 
-# 3×3 grid of projector‐space target points
-_MX = int(PROJ_W * 0.1)        # 10% from left/right
-_MY = int(PROJ_H * 0.1)        # 10% from top/bottom
-_CX = PROJ_W // 2               # center X
-_CY = (PROJ_H-50) // 2               # close to center Y
-TARGET_POINTS = [
-    (_MX,  _MY),  (_CX,  _MY),  (PROJ_W-_MX,  _MY),
-    (_MX,  _CY),  (_CX,  _CY),  (PROJ_W-_MX,  _CY),
-    (_MX,  PROJ_H-50-_MY), (_CX, PROJ_H-50-_MY), (PROJ_W-_MX, PROJ_H-50-_MY),
-]
+# 5x5 target points for calibration
+_NX = 5
+_NY = 5
+X_MARGIN = int(PROJ_W * 0.1)           # 10% from left/right
+Y_MARGIN = int(PROJ_H * 0.2)           # 20% from top/bottom
+usable_w = PROJ_W - 2 * X_MARGIN
+usable_h = PROJ_H - 2 * Y_MARGIN
 
+TARGET_POINTS = []
+for row in range(_NY):
+    y = Y_MARGIN + int(row * (usable_h / (_NY - 1)))
+    for col in range(_NX):
+        x = X_MARGIN + int(col * (usable_w / (_NX - 1)))
+        TARGET_POINTS.append((x, y))
+        
 # Which fingertip to use for calibration and projection
 FINGER_IDX = 8  # index finger tip
 

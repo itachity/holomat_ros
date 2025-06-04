@@ -43,6 +43,10 @@ class HandTrackingNode(Node):
             self.get_logger().error('Cannot open camera')
             raise RuntimeError('Camera not available')
 
+        # force lower resolution (faster processing)
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+
     def run(self):
         self.get_logger().info('Starting hand tracking loop. Press "q" to quit.')
         while rclpy.ok():
@@ -52,8 +56,13 @@ class HandTrackingNode(Node):
                 continue
 
             frame = cv2.flip(frame, 1)
-            rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            results = self.hands.process(rgb)
+            #rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            #results = self.hands.process(rgb)
+
+            # downsize
+            small = cv2.resize(frame, (320, 240))
+            rgb_small = cv2.cvtColor(small, cv2.COLOR_BGR2RGB)
+            results = self.hands.process(rgb_small)
 
             now = self.get_clock().now().to_msg()
             markers = MarkerArray()
@@ -61,8 +70,14 @@ class HandTrackingNode(Node):
             if results.multi_hand_landmarks:
                 for hand_index, hand_landmarks in enumerate(results.multi_hand_landmarks):
                     # Broadcast TF and create markers for each fingertip
+                    frame_h, frame_w = frame.shape[:2]
                     for idx in [4, 8, 12, 16, 20]:  # thumb_tip, index_tip, middle_tip, ring_tip, pinky_tip
                         lm = hand_landmarks.landmark[idx]
+
+                        # normalized coords from 320×240 → scale to 640×480
+                        x_pix = lm.x * frame_w
+                        y_pix = lm.y * frame_h
+                        z_norm = lm.z    
 
                         # TF frame
                         tf = TransformStamped()
@@ -86,16 +101,16 @@ class HandTrackingNode(Node):
                         marker.id = idx
                         marker.type = Marker.SPHERE
                         marker.action = Marker.ADD
-                        marker.pose.position.x = lm.x
-                        marker.pose.position.y = lm.y
-                        marker.pose.position.z = lm.z
+                        marker.pose.position.x = x_pix / 640.0
+                        marker.pose.position.y = y_pix / 480.0
+                        marker.pose.position.z = z_norm
                         marker.pose.orientation.x = 0.0
                         marker.pose.orientation.y = 0.0
                         marker.pose.orientation.z = 0.0
                         marker.pose.orientation.w = 1.0
-                        marker.scale.x = 0.02
-                        marker.scale.y = 0.02
-                        marker.scale.z = 0.02
+                        marker.scale.x = 0.05
+                        marker.scale.y = 0.05
+                        marker.scale.z = 0.05
                         marker.color.r = 1.0
                         marker.color.g = 0.0
                         marker.color.b = 0.0

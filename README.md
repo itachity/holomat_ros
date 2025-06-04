@@ -56,6 +56,11 @@ ros2 service call /calibrate holomat_interface/srv/Calibrate "{}"
 ros2 service call /project_markers holomat_interface/srv/ProjectMarkers "{ enable: true }"
 ros2 service call /project_markers holomat_interface/srv/ProjectMarkers "{ enable: false }"
 
+# Voice Command
+ros2 run holomat_ros voice_command_server
+ros2 run holomat_ros voice_command_node
+# if mic is not working
+ros2 topic pub /jarvis_text_query std_msgs/msg/String "{ data: 'What should i do today?' }" --once
 ```
 
 ---
