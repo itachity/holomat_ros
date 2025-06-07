@@ -21,7 +21,7 @@ from tf2_ros import Buffer, TransformListener
 HOMOGRAPHY_FILE = os.path.expanduser('/home/itachity/rob599/src/holomat_ros/M.npy')
 
 # Projector resolution (second display)
-PROJ_W, PROJ_H = 1920, 909
+PROJ_W, PROJ_H = 1600, 757
 
 # Offset to move windows onto the projector
 PRIMARY_DISPLAY_WIDTH = 2560  # adjust to your setup

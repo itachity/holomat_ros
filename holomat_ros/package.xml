@@ -21,6 +21,7 @@
   <exec_depend>visualization_msgs</exec_depend>
   <exec_depend>holomat_interface</exec_depend>
   <exec_depend>message_runtime</exec_depend>
+  <exec_depend>ros2launch</exec_depend>
 
   <!-- hand tracking dependencies -->
   <exec_depend>opencv-python</exec_depend>
