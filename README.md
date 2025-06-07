@@ -41,8 +41,8 @@ sudo apt install \
 ```
 Next, use pip3 (with --break-system-packages if prompted) to install the remaining Python dependencies:
 ```bash
-# MediaPipe (pin to 0.8.10 for compatibility)
-sudo pip3 install --break-system-packages mediapipe==0.8.10
+# MediaPipe 
+sudo pip3 install --break-system-packages mediapipe
 
 # Real‑time STT, OpenAI SDK, Pygame, etc.
 sudo pip3 install --break-system-packages \
