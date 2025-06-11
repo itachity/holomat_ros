@@ -119,5 +119,6 @@ You will see the camera feed with landmarks, (the 3D axes of fingertip frames), 
 
 ## 5) Demonstration
 
-See recordings
+[![Demo Video](https://img.youtube.com/vi/-vL0-piHwcM/0.jpg)](https://youtu.be/-vL0-piHwcM)
+
 
